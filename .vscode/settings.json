@@ -3,11 +3,11 @@
         "editor.formatOnSave": true
     },
     "python.linting.pep8Enabled": false,
-    "python.linting.pylintPath": "/home/romain/.virtualenvs/django/bin/pylint",
+    "python.linting.pylintPath": "~/.virtualenvs/django/bin/pylint",
     "python.linting.pylintArgs": [
         "--load-plugins",
         "pylint_django"
     ],
     "python.linting.pylintEnabled": true,
-    "python.pythonPath": "/home/romain/.virtualenvs/django/bin/python"
+    "python.pythonPath": "~/.virtualenvs/django/bin/python"
 }
