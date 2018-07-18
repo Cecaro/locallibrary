@@ -14,4 +14,7 @@
     <p>{{ book.summary }}</p>
     {% endfor %}
   </div>
+
+  <a href="{% url 'author-update' author.pk %}">Update author information</a>
+  <a href="{% url 'author-delete' author.pk %}">Delete author</a>
 {% endblock %}
