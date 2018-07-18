@@ -8,7 +8,9 @@
   <p><strong>ISBN:</strong> {{ book.isbn }}</p> 
   <p><strong>Language:</strong> {{ book.language }}</p>  
   <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>  
-
+  <p><a href="{% url 'book-update' book.pk %}">Update book information</a></p>
+  <p><a href="{% url 'book-delete' book.pk %}">Delete book</a></p>
+  
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
 
