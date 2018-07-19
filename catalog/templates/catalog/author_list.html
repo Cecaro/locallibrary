@@ -15,5 +15,6 @@
     </ul>
     {% else %}
       <p>There are no authors in the library.</p>
-    {% endif %}       
+    {% endif %}
+    <p><a href="{% url 'author-create' %}">Create new author</a></p>  
 {% endblock %}

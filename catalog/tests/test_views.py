@@ -280,3 +280,47 @@ class RenewBookInstancesViewTest(TestCase):
 class AuthorCreateInstanceViewTest(TestCase):
 
     def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(
+            username='testuser1', password='12345')
+        test_user1.save()
+
+        test_user2 = User.objects.create_user(
+            username='testuser2', password='12345')
+        test_user2.save()
+        permission = Permission.objects.get(name='Set book as returned')
+        test_user2.user_permissions.add(permission)
+        test_user2.save()
+
+    def test_redirect_if_not_logged_in(self):
+        resp = self.client.get(reverse('author-create'))
+        self.assertRedirects(
+            resp, '/accounts/login/?next=/catalog/author/create/')
+
+    def test_logged_in_without_permission(self):
+        login = self.client.login(username='testuser1', password='12345')
+        resp = self.client.get(reverse('author-create'))
+
+        self.assertRedirects(
+            resp, '/accounts/login/?next=/catalog/author/create/')
+
+    def test_logged_in_with_permission(self):
+        login = self.client.login(username='testuser2', password='12345')
+        resp = self.client.get(reverse('author-create'))
+
+        self.assertEqual(resp.status_code, 200)
+
+    def test_uses_correct_template(self):
+        login = self.client.login(username='testuser2', password='12345')
+        resp = self.client.get(reverse('author-create'))
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'catalog/author_form.html')
+
+    def test_redirects_to_created_author_detailed_view_on_success(self):
+        login = self.client.login(username='testuser2', password='12345')
+        resp = self.client.post(reverse(
+            'author-create'), {'first_name': 'John', 'last_name': 'Stewart', 'date_of_birth': '1975-06-06'})
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertTrue(resp.url.startswith('/catalog/author/'))

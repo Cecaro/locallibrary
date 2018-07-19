@@ -104,10 +104,9 @@ def renew_book_librarian(request, pk):
     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst': book_inst})
 
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = '__all__'
-    initial = {'date_of_death': '2018/01/05', }
     permission_required = 'catalog.can_mark_returned'
 
 
