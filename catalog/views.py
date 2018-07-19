@@ -48,6 +48,7 @@ class BookDetailView(generic.DetailView):
 
 class AuthorListView(generic.ListView):
     model = Author
+    paginate_by = 10
 
 
 class AuthorDetailView(generic.DetailView):
@@ -84,7 +85,7 @@ def renew_book_librarian(request, pk):
     if request.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding).
-        form = RenewBookFor(request.POST)
+        form = RenewBookForm(request.POST)
 
         # Check form validity
         if form.is_valid():
@@ -107,6 +108,7 @@ class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
     initial = {'date_of_death': '2018/01/05', }
+    permission_required = 'catalog.can_mark_returned'
 
 
 class AuthorUpdate(UpdateView):
